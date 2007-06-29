@@ -71,3 +71,9 @@ file "ext/Makefile" => "ext/extconf.rb" do
     ruby "extconf.rb"
   end
 end
+
+task :install => :extension do
+  cd "ext" do
+    sh "make install"
+  end
+end
