@@ -29,21 +29,15 @@ task :default => ['test:all']
 CLEAN.include "ext/**/*.bundle", "ext/**/*.o"
 CLOBBER.include "ext/Makefile", "ext/base32", "pkg/**/*"
 
-PKG_VERSION = "1.0.0"
-PKG_FILES = FileList["Rakefile",
-                     "{config,test}/**/*",
-                     "ext/*.{c,h,rb,bundle}"]
-
-
 gemspec = Gem::Specification.new do |s|
   s.name = 'base32'
-  s.version = PKG_VERSION
+  s.version = "1.0.0"
   s.author = "Samuel Tesla"
   s.email = "samuel@thoughtlocker.net"
   s.summary = "Ruby extension for base32 encoding and decoding"
   s.requirements << 'none'
   s.require_paths << 'ext'
-  s.files = PKG_FILES
+  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,bundle}"]
   s.extensions = ["ext/extconf.rb"]
 end
 
