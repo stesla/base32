@@ -21,20 +21,20 @@
 
 #include "encoder.h"
 
-inline size_t base32_encoder_last_quintent (const size_t bytes)
+size_t base32_encoder_last_quintent (const size_t bytes)
 {
   int quintets = bytes * 8 / 5;
   int remainder = bytes % 5;
   return remainder == 0 ? quintets : quintets + 1;
 }
 
-inline size_t base32_encoder_output_padding_size (const size_t bytes)
+size_t base32_encoder_output_padding_size (const size_t bytes)
 {
   unsigned remainder = bytes % 5;
   return remainder == 0 ? 0 : (5 - remainder) * 8 / 5;
 }
 
-inline size_t base32_encoder_buffer_size (const size_t bytes)
+size_t base32_encoder_buffer_size (const size_t bytes)
 {
   return base32_encoder_last_quintent (bytes) +
     base32_encoder_output_padding_size (bytes);

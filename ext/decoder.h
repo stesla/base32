@@ -24,7 +24,7 @@
 
 #include <stdlib.h>
 
-inline size_t base32_decoder_buffer_size (const size_t encodedTextLength);
+size_t base32_decoder_buffer_size (const size_t encodedTextLength);
 
 size_t base32_decode (uint8_t *output, const size_t outputLength,
                       const uint8_t *input, const size_t inputLength);

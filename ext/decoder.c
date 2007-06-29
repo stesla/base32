@@ -21,7 +21,7 @@
 
 #include "ruby.h"
 
-static inline uint8_t
+static uint8_t
 decode_bits (const uint8_t bits)
 {
   uint8_t table[] = {
