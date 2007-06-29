@@ -24,16 +24,8 @@
 #include "encoder.h"
 
 static VALUE
-base32_decoder_initialize (VALUE self, VALUE value)
+b32_decode (VALUE self, VALUE value)
 {
-  rb_iv_set (self, "@value", rb_str_dup (value));
-  return self;
-}
-
-static VALUE
-base32_decoder_decode (VALUE self)
-{
-  VALUE value = rb_iv_get (self, "@value");
   value = StringValue (value);
   if (RSTRING (value)->len == 0)
     return value;
@@ -49,16 +41,8 @@ base32_decoder_decode (VALUE self)
 }
 
 static VALUE
-base32_encoder_initialize (VALUE self, VALUE value)
+b32_encode (VALUE self, VALUE value)
 {
-  rb_iv_set (self, "@value", rb_str_dup (value));
-  return self;
-}
-
-static VALUE
-base32_encoder_encode (VALUE self)
-{
-  VALUE value = rb_iv_get (self, "@value");
   value = StringValue(value);
 
   VALUE result = rb_str_new (0, base32_encoder_buffer_size (RSTRING (value)->len));
@@ -69,18 +53,10 @@ base32_encoder_encode (VALUE self)
 }
 
 VALUE mBase32;
-VALUE cDecoder;
-VALUE cEncoder;
 
 void Init_base32_ext ()
 {
   mBase32 = rb_define_module ("Base32");
-
-  cDecoder = rb_define_class_under (mBase32, "Decoder", rb_cObject);
-  rb_define_method (cDecoder, "initialize", base32_decoder_initialize, 1);
-  rb_define_method (cDecoder, "decode", base32_decoder_decode, 0);
-
-  cEncoder = rb_define_class_under (mBase32, "Encoder", rb_cObject);
-  rb_define_method (cEncoder, "initialize", base32_encoder_initialize, 1);
-  rb_define_method (cEncoder, "encode", base32_encoder_encode, 0);
+  rb_define_module_function(mBase32, "decode", b32_decode, 1);
+  rb_define_module_function(mBase32, "encode", b32_encode, 1);
 }

@@ -19,15 +19,3 @@
 # THE SOFTWARE.
 
 require 'base32/base32_ext'
-
-module Base32
-  class << self
-    def decode(value)
-      Decoder.new(value).decode
-    end
-
-    def encode(value)
-      Encoder.new(value).encode
-    end
-  end
-end
