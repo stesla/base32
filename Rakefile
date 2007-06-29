@@ -30,15 +30,16 @@ CLEAN.include "ext/**/*.bundle", "ext/**/*.o"
 CLOBBER.include "ext/Makefile", "ext/base32", "pkg/**/*"
 
 gemspec = Gem::Specification.new do |s|
-  s.name = 'base32'
-  s.version = "1.0.0"
   s.author = "Samuel Tesla"
   s.email = "samuel@thoughtlocker.net"
-  s.summary = "Ruby extension for base32 encoding and decoding"
-  s.requirements << 'none'
-  s.require_paths << 'ext'
-  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,bundle}"]
   s.extensions = ["ext/extconf.rb"]
+  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,bundle}"]
+  s.homepage = "http://base32.rubyforge.org"
+  s.name = 'base32'
+  s.require_paths << 'ext'
+  s.requirements << 'none'
+  s.summary = "Ruby extension for base32 encoding and decoding"
+  s.version = "1.0.0"
 end
 
 Rake::GemPackageTask.new(gemspec) do |pkg|
