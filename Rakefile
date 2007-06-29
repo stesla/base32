@@ -34,14 +34,14 @@ gemspec = Gem::Specification.new do |s|
   s.email = "samuel@thoughtlocker.net"
   s.extensions = ["ext/extconf.rb"]
   s.extra_rdoc_files = ["README"]
-  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,bundle,so}"]
+  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb}"]
   s.has_rdoc = true
   s.homepage = "http://base32.rubyforge.org"
   s.name = 'base32'
   s.require_paths << 'ext'
   s.requirements << 'none'
   s.summary = "Ruby extension for base32 encoding and decoding"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 end
 
 Rake::GemPackageTask.new(gemspec) do |pkg|
