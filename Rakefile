@@ -39,7 +39,7 @@ gemspec = Gem::Specification.new do |s|
   s.require_paths << 'ext'
   s.requirements << 'none'
   s.summary = "Ruby extension for base32 encoding and decoding"
-  s.version = "1.0.0"
+  s.version = "0.1.0"
 end
 
 Rake::GemPackageTask.new(gemspec) do |pkg|
