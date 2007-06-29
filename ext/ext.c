@@ -23,6 +23,13 @@
 #include "decoder.h"
 #include "encoder.h"
 
+/*
+ * call-seq:
+ *   Base32.decode(encoded_string) -> string
+ *
+ * Decodes a string that is encoded in base32.  Will throw an ArgumentError if
+ * it cannot successfully decode it.
+ */
 static VALUE
 b32_decode (VALUE self, VALUE value)
 {
@@ -40,6 +47,12 @@ b32_decode (VALUE self, VALUE value)
   return result;
 }
 
+/*
+ * call-seq:
+ *   Base32.encode(string) -> encoded_string
+ *
+ * Encodes a string in base32.
+ */
 static VALUE
 b32_encode (VALUE self, VALUE value)
 {
