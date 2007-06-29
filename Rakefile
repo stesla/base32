@@ -31,9 +31,9 @@ CLOBBER.include "ext/Makefile", "ext/base32", "pkg/**/*"
 
 PKG_VERSION = "1.0.0"
 PKG_FILES = FileList["Rakefile",
-                     "{config,lib,test}/**/*",
-                     "ext/*.{c,h,rb}",
-                     "ext/base32/base32_ext.bundle"]
+                     "{config,test}/**/*",
+                     "ext/*.{c,h,rb,bundle}"]
+
 
 gemspec = Gem::Specification.new do |s|
   s.name = 'base32'
@@ -51,7 +51,6 @@ Rake::GemPackageTask.new(gemspec) do |pkg|
   pkg.need_tar = true
 end
 
-
 namespace :test do
   Rake::TestTask.new :all => [:extension] do |t|
     t.libs << 'test'
@@ -60,28 +59,20 @@ namespace :test do
     t.verbose = true
   end
   Rake::Task['test:all'].comment = 'Run all of the tests'
+end
 
-  task :extension => "ext/base32/base32_ext.bundle"
+task :extension => "ext/base32.bundle"
 
-  Rake::FileCreationTask.define_task "ext/base32" do
-    mkdir "ext/base32"
+extension_source = FileList["ext/**/*.c", "ext/**/*.h"]
+
+file "ext/base32.bundle" => ["ext/Makefile", *extension_source] do
+  cd "ext" do
+    sh "make"
   end
+end
 
-  file "ext/base32/base32_ext.bundle" => ["ext/base32", "ext/base32_ext.bundle"] do |t|
-    cp "ext/base32_ext.bundle", t.name
-  end
-
-  extension_source = FileList["ext/**/*.c", "ext/**/*.h"]
-
-  file "ext/base32_ext.bundle" => ["ext/Makefile", *extension_source] do
-    cd "ext" do
-      sh "make"
-    end
-  end
-
-  file "ext/Makefile" => "ext/extconf.rb" do
-    cd "ext" do
-      ruby "extconf.rb"
-    end
+file "ext/Makefile" => "ext/extconf.rb" do
+  cd "ext" do
+    ruby "extconf.rb"
   end
 end

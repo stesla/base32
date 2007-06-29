@@ -19,4 +19,4 @@
 # THE SOFTWARE.
 
 require 'mkmf'
-create_makefile('base32/base32_ext')
+create_makefile('base32')

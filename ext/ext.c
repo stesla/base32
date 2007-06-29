@@ -54,7 +54,7 @@ b32_encode (VALUE self, VALUE value)
 
 VALUE mBase32;
 
-void Init_base32_ext ()
+void Init_base32 ()
 {
   mBase32 = rb_define_module ("Base32");
   rb_define_module_function(mBase32, "decode", b32_decode, 1);
