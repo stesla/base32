@@ -21,20 +21,23 @@
 
 #include "encoder.h"
 
-size_t base32_encoder_last_quintent (const size_t bytes)
+inline size_t
+base32_encoder_last_quintent (const size_t bytes)
 {
   int quintets = bytes * 8 / 5;
   int remainder = bytes % 5;
   return remainder == 0 ? quintets : quintets + 1;
 }
 
-size_t base32_encoder_output_padding_size (const size_t bytes)
+inline size_t
+base32_encoder_output_padding_size (const size_t bytes)
 {
   unsigned remainder = bytes % 5;
   return remainder == 0 ? 0 : (5 - remainder) * 8 / 5;
 }
 
-size_t base32_encoder_buffer_size (const size_t bytes)
+inline size_t
+base32_encoder_buffer_size (const size_t bytes)
 {
   return base32_encoder_last_quintent (bytes) +
     base32_encoder_output_padding_size (bytes);
@@ -84,7 +87,7 @@ base32_encoder_encode_bits (int position, const uint8_t *buffer)
     }
 }
 
-static uint8_t
+static inline uint8_t
 base32_encoder_encode_at_position (unsigned position, const uint8_t *buffer)
 {
   const char *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";

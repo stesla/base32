@@ -21,7 +21,7 @@
 
 #include "decoder.h"
 
-static uint8_t
+static inline uint8_t
 decode_bits (const uint8_t bits)
 {
   uint8_t table[] = {
@@ -48,7 +48,8 @@ decode_bits (const uint8_t bits)
   return table[bits];
 }
 
-size_t base32_decode_buffer_size (const size_t encodedTextLength)
+inline size_t
+base32_decode_buffer_size (const size_t encodedTextLength)
 {
   if (encodedTextLength == 0 || encodedTextLength % 8 != 0)
     return 0;

@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-size_t base32_encoder_buffer_size (const size_t bytes);
+inline size_t base32_encoder_buffer_size (const size_t bytes);
 
 void base32_encode (uint8_t *output, const size_t outputLength,
                     const uint8_t *input, const size_t inputLength);
