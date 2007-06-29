@@ -33,7 +33,9 @@ gemspec = Gem::Specification.new do |s|
   s.author = "Samuel Tesla"
   s.email = "samuel@thoughtlocker.net"
   s.extensions = ["ext/extconf.rb"]
+  s.extra_rdoc_files = ["README"]
   s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,bundle}"]
+  s.has_rdoc = true
   s.homepage = "http://base32.rubyforge.org"
   s.name = 'base32'
   s.require_paths << 'ext'
