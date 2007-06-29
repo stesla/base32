@@ -36,7 +36,7 @@ PKG_FILES = FileList["Rakefile",
                      "ext/base32/base32_ext.bundle"]
 
 gemspec = Gem::Specification.new do |s|
-  s.name = 'ruby-base32'
+  s.name = 'base32'
   s.version = PKG_VERSION
   s.author = "Samuel Tesla"
   s.email = "samuel@thoughtlocker.net"
