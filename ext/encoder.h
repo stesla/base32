@@ -23,6 +23,7 @@
 #define ENCODER_H
 
 #include <stdlib.h>
+#include <stdint.h>
 
 size_t base32_encoder_buffer_size (const size_t bytes);
 

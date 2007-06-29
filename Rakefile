@@ -26,15 +26,15 @@ require 'rubygems'
 
 task :default => ['test:all']
 
-CLEAN.include "ext/**/*.bundle", "ext/**/*.o"
-CLOBBER.include "ext/Makefile", "ext/base32", "pkg/**/*"
+CLEAN.include "ext/**/*.{bundle,o,so}"
+CLOBBER.include "ext/Makefile", "ext/mkmf.log", "pkg/**/*"
 
 gemspec = Gem::Specification.new do |s|
   s.author = "Samuel Tesla"
   s.email = "samuel@thoughtlocker.net"
   s.extensions = ["ext/extconf.rb"]
   s.extra_rdoc_files = ["README"]
-  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,bundle}"]
+  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,bundle,so}"]
   s.has_rdoc = true
   s.homepage = "http://base32.rubyforge.org"
   s.name = 'base32'

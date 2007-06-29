@@ -23,6 +23,7 @@
 #define DECODER_H
 
 #include <stdlib.h>
+#include <stdint.h>
 
 size_t base32_decoder_buffer_size (const size_t encodedTextLength);
 

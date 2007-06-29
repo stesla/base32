@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-#include "ruby.h"
+#include "decoder.h"
 
 static uint8_t
 decode_bits (const uint8_t bits)

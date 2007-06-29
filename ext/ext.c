@@ -19,6 +19,7 @@
  * THE SOFTWARE.
  */
 
+#include <stdlib.h>
 #include "ruby.h"
 #include "decoder.h"
 #include "encoder.h"
