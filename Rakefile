@@ -1,4 +1,4 @@
-# Copyright (c) 2007 Samuel Tesla
+# Copyright (c) 2007-2009 Samuel Tesla
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ gemspec = Gem::Specification.new do |s|
   s.require_paths << 'ext'
   s.requirements << 'none'
   s.summary = "Ruby extension for base32 encoding and decoding"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 end
 
 Rake::GemPackageTask.new(gemspec) do |pkg|
