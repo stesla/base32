@@ -39,6 +39,9 @@ b32_decode (VALUE self, VALUE value)
     return value;
 
   VALUE result = rb_str_new (0, base32_decode_buffer_size (RSTRING (value)->len));
+#ifdef TEST
+  memset(RSTRING (result)->ptr, 0xff, RSTRING (result)->len);
+#endif
   size_t length = base32_decode ((uint8_t *) RSTRING (result)->ptr, RSTRING (result)->len,
                                  (uint8_t *) RSTRING (value)->ptr, RSTRING (value)->len);
   if (length == 0)
@@ -60,17 +63,36 @@ b32_encode (VALUE self, VALUE value)
   value = StringValue(value);
 
   VALUE result = rb_str_new (0, base32_encoder_buffer_size (RSTRING (value)->len));
+#ifdef TEST
+  memset(RSTRING (result)->ptr, 0xff, RSTRING (result)->len);
+#endif
   base32_encode ((uint8_t *) RSTRING (result)->ptr, RSTRING (result)->len,
                  (uint8_t *) RSTRING (value)->ptr, RSTRING (value)->len);
 
   return result;
 }
 
+#ifdef TEST
+static VALUE
+b32_test_strlen (VALUE self, VALUE value)
+{
+  return UINT2NUM (strlen (RSTRING (value)->ptr));
+}
+#endif
+
+
 VALUE mBase32;
+#ifdef TEST
+VALUE mBase32Test;
+#endif
 
 void Init_base32 ()
 {
   mBase32 = rb_define_module ("Base32");
   rb_define_module_function(mBase32, "decode", b32_decode, 1);
   rb_define_module_function(mBase32, "encode", b32_encode, 1);
+#ifdef TEST
+  mBase32Test = rb_define_module ("Base32Test");
+  rb_define_module_function(mBase32Test, "strlen", b32_test_strlen, 1);
+#endif
 }

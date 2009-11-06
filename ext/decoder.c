@@ -53,7 +53,7 @@ base32_decode_buffer_size (const size_t encodedTextLength)
 {
   if (encodedTextLength == 0 || encodedTextLength % 8 != 0)
     return 0;
-  return encodedTextLength * 8 / 5;
+  return encodedTextLength * 5 / 8;
 }
 
 size_t

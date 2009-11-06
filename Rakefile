@@ -49,7 +49,7 @@ Rake::GemPackageTask.new(gemspec) do |pkg|
 end
 
 namespace :test do
-  Rake::TestTask.new :all => [:extension] do |t|
+  Rake::TestTask.new :all => [:test_extension] do |t|
     t.libs << 'test'
     t.libs << 'ext'
     t.pattern = 'test/**/*_test.rb'
@@ -59,12 +59,19 @@ namespace :test do
 end
 
 task :extension => "ext/base32.bundle"
+task :test_extension do
+  sh 'rake TEST=1 ext/base32.bundle'
+end
 
 extension_source = FileList["ext/**/*.c", "ext/**/*.h"]
 
 file "ext/base32.bundle" => ["ext/Makefile", *extension_source] do
   cd "ext" do
-    sh "make"
+    if ENV['TEST']
+      sh "make cflags=\"-D TEST\""
+    else
+      sh "make"
+    end
   end
 end
 

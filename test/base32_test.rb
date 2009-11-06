@@ -23,11 +23,15 @@ require 'base32'
 
 class TestBase32 < Test::Unit::TestCase
   def assert_decoding(encoded, plain)
-    assert_equal(plain, Base32.decode(encoded))
+    decoded = Base32.decode(encoded)
+    assert_equal(plain, decoded)
+    assert_equal(decoded.size, Base32Test.strlen(decoded))
   end
 
   def assert_encoding(encoded, plain)
-    assert_equal(encoded, Base32.encode(plain))
+    actual = Base32.encode(plain)
+    assert_equal(encoded, actual)
+    assert_equal(actual.size, Base32Test.strlen(actual))
   end
 
   def assert_encode_and_decode(encoded, plain)
