@@ -35,19 +35,28 @@ static VALUE
 b32_decode (VALUE self, VALUE value)
 {
   value = StringValue (value);
-  if (RSTRING (value)->len == 0)
+  if (RSTRING_LEN (value) == 0)
     return value;
 
-  VALUE result = rb_str_new (0, base32_decode_buffer_size (RSTRING (value)->len));
+  size_t buflen = base32_decode_buffer_size (RSTRING_LEN (value));
+  char *buffer = (char *) malloc (buflen);
 #ifdef TEST
-  memset(RSTRING (result)->ptr, 0xff, RSTRING (result)->len);
+  memset(buffer, 0xff, buflen);
+#else
+  memset(buffer, 0x00, buflen);
 #endif
-  size_t length = base32_decode ((uint8_t *) RSTRING (result)->ptr, RSTRING (result)->len,
-                                 (uint8_t *) RSTRING (value)->ptr, RSTRING (value)->len);
-  if (length == 0)
-    rb_raise(rb_eRuntimeError, "Value provided not base32 encoded");
 
-  RSTRING (result)->len = length;
+  size_t length = base32_decode ((uint8_t *) buffer, buflen,
+                                 (uint8_t *) RSTRING_PTR (value), RSTRING_LEN (value));
+
+  if (length == 0) {
+    free(buffer);
+    rb_raise(rb_eRuntimeError, "Value provided not base32 encoded");
+  }
+
+  VALUE result = rb_str_new (0, length);
+  memcpy(RSTRING_PTR (result), buffer, length);
+  free(buffer);
   return result;
 }
 
@@ -62,12 +71,12 @@ b32_encode (VALUE self, VALUE value)
 {
   value = StringValue(value);
 
-  VALUE result = rb_str_new (0, base32_encoder_buffer_size (RSTRING (value)->len));
+  VALUE result = rb_str_new (0, base32_encoder_buffer_size (RSTRING_LEN (value)));
 #ifdef TEST
-  memset(RSTRING (result)->ptr, 0xff, RSTRING (result)->len);
+  memset(RSTRING_PTR (result), 0xff, RSTRING_LEN (result));
 #endif
-  base32_encode ((uint8_t *) RSTRING (result)->ptr, RSTRING (result)->len,
-                 (uint8_t *) RSTRING (value)->ptr, RSTRING (value)->len);
+  base32_encode ((uint8_t *) RSTRING_PTR (result), RSTRING_LEN (result),
+                 (uint8_t *) RSTRING_PTR (value), RSTRING_LEN (value));
 
   return result;
 }
@@ -76,7 +85,7 @@ b32_encode (VALUE self, VALUE value)
 static VALUE
 b32_test_strlen (VALUE self, VALUE value)
 {
-  return UINT2NUM (strlen (RSTRING (value)->ptr));
+  return UINT2NUM (strlen (RSTRING_PTR (value)));
 }
 #endif
 
