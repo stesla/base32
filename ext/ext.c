@@ -38,16 +38,25 @@ b32_decode (VALUE self, VALUE value)
   if (RSTRING_LEN (value) == 0)
     return value;
 
-  VALUE result = rb_str_new (0, base32_decode_buffer_size (RSTRING_LEN (value)));
+  size_t buflen = base32_decode_buffer_size (RSTRING_LEN (value));
+  char *buffer = (char *) malloc (buflen);
 #ifdef TEST
-  memset(RSTRING_PTR (result), 0xff, RSTRING_LEN (result));
+  memset(buffer, 0xff, buflen);
+#else
+  memset(buffer, 0x00, buflen);
 #endif
-  size_t length = base32_decode ((uint8_t *) RSTRING_PTR (result), RSTRING_LEN (result),
-                                 (uint8_t *) RSTRING_PTR (value), RSTRING_LEN (value));
-  if (length == 0)
-    rb_raise(rb_eRuntimeError, "Value provided not base32 encoded");
 
-  length = RSTRING_LEN(result);
+  size_t length = base32_decode ((uint8_t *) buffer, buflen,
+                                 (uint8_t *) RSTRING_PTR (value), RSTRING_LEN (value));
+
+  if (length == 0) {
+    free(buffer);
+    rb_raise(rb_eRuntimeError, "Value provided not base32 encoded");
+  }
+
+  VALUE result = rb_str_new (0, length);
+  memcpy(RSTRING_PTR (result), buffer, length);
+  free(buffer);
   return result;
 }
 
