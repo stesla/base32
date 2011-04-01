@@ -1,6 +1,6 @@
 = base32
 
-For Version: 0.1.2
+For Version: 0.1.3
 
 This package contains base32, a ruby extension for encoding and decoding
 in base32 per RFC 3548.
