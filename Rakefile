@@ -26,63 +26,85 @@ require 'rubygems'
 
 task :default => ['test:all']
 
-CLEAN.include "ext/**/*.{bundle,o,so}"
+CLEAN.include "ext/**/*.{bundle,o,so,jar,class}"
 CLOBBER.include "ext/Makefile", "ext/mkmf.log", "pkg/**/*"
 
 gemspec = Gem::Specification.new do |s|
   s.author = "Samuel Tesla"
   s.email = "samuel@thoughtlocker.net"
-  s.extensions = ["ext/extconf.rb"]
   s.extra_rdoc_files = ["README"]
-  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb}"]
-  s.has_rdoc = true
+  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,java}"]
   s.homepage = "http://base32.rubyforge.org"
   s.name = 'base32'
-  s.require_paths << 'ext'
   s.requirements << 'none'
   s.summary = "Ruby extension for base32 encoding and decoding"
   s.version = "0.1.3"
+  s.require_paths = ['ext']
 end
+
+java = RUBY_PLATFORM =~ /java/
 
 Rake::GemPackageTask.new(gemspec) do |pkg|
   pkg.need_tar = true
 end
 
-namespace :test do
-  Rake::TestTask.new :all => [:test_extension] do |t|
-    t.libs << 'test'
-    t.libs << 'ext'
-    t.pattern = 'test/**/*_test.rb'
-    t.verbose = true
+if java  
+  require 'rake/javaextensiontask'
+
+  Rake::JavaExtensionTask.new("base32", gemspec) do |ext|
+    gemspec.files += ['lib/base32.rb']
+    ext.ext_dir = ['ext/java']
   end
-  Rake::Task['test:all'].comment = 'Run all of the tests'
-end
 
-task :extension => "ext/base32.bundle"
-task :test_extension do
-  sh 'rake TEST=1 ext/base32.bundle'
-end
+  namespace :test do
+    Rake::TestTask.new :all => [:compile] do |t|
+      t.libs = ['lib', 'test']
+      t.pattern = 'test/**/*_test.rb'
+      t.verbose = true
+    end
+  end
+else 
+  require 'rake/extensiontask'
 
-extension_source = FileList["ext/**/*.c", "ext/**/*.h"]
+  namespace :test do
+    Rake::TestTask.new :all => [:test_extension] do |t|
+      t.libs = ['test', 'ext']
+      t.pattern = 'test/**/*_test.rb'
+      t.verbose = true
+    end
+  end
 
-file "ext/base32.bundle" => ["ext/Makefile", *extension_source] do
-  cd "ext" do
-    if ENV['TEST']
-      sh "make cflags=\"-D TEST\""
-    else
-      sh "make"
+  task :extension => "ext/base32.bundle"
+
+  task :test_extension do
+    sh 'rake TEST=1 ext/base32.bundle'
+  end
+
+  extension_source = FileList["ext/**/*.c", "ext/**/*.h"]
+
+  file "ext/base32.bundle" => ["ext/Makefile", *extension_source] do
+    gemspec.extensions = ["ext/extconf.rb"]
+
+    cd "ext" do
+      if ENV['TEST']
+        sh "make cflags=\"-D TEST\""
+      else
+        sh "make"
+      end
+    end
+  end
+
+  file "ext/Makefile" => "ext/extconf.rb" do
+    cd "ext" do
+      ruby "extconf.rb"
+    end
+  end
+
+  task :install => :extension do
+    cd "ext" do
+      sh "make install"
     end
   end
 end
 
-file "ext/Makefile" => "ext/extconf.rb" do
-  cd "ext" do
-    ruby "extconf.rb"
-  end
-end
-
-task :install => :extension do
-  cd "ext" do
-    sh "make install"
-  end
-end
+Rake::Task['test:all'].comment = 'Run all of the tests'
