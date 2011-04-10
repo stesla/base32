@@ -33,7 +33,7 @@ gemspec = Gem::Specification.new do |s|
   s.author = "Samuel Tesla"
   s.email = "samuel@thoughtlocker.net"
   s.extra_rdoc_files = ["README"]
-  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb,java}"]
+  s.files = FileList["Rakefile", "{config,test}/**/*", "ext/*.{c,h,rb}", "ext/java/*.java"]
   s.homepage = "http://base32.rubyforge.org"
   s.name = 'base32'
   s.requirements << 'none'
