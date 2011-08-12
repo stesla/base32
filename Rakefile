@@ -28,16 +28,15 @@ task :default => ['test:all']
 
 gemspec = Gem::Specification.new do |s|
   s.author = "Samuel Tesla"
-  s.email = "samuel@thoughtlocker.net"
+  s.email = "samuel.tesla@gmail.com"
   s.extra_rdoc_files = ["README"]
   s.files = FileList["Rakefile", "{config,lib,test}/**/*"]
   s.has_rdoc = true
-  s.homepage = "http://base32.rubyforge.org"
   s.name = 'base32'
   s.require_paths << 'lib'
   s.requirements << 'none'
   s.summary = "Ruby extension for base32 encoding and decoding"
-  s.version = "0.1.3"
+  s.version = "0.2.0"
 end
 
 Rake::GemPackageTask.new(gemspec) do |pkg|
