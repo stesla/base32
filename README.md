@@ -1,4 +1,4 @@
-= URLcrypt
+# URLcrypt
 
 Ever wanted to securely transmit (not too long) pieces of arbitrary binary data
 in a URL? *urlencrypt* makes it easy!
@@ -30,22 +30,24 @@ just yet. It will only work on Ruby 1.8.7 for now.
 
 Patches are welcome, please include tests.
 
-== Installation
+## Installation
 
 Add the `urlcrypt` gem to your Gemfile.
 
-=== Running the Test Suite
+## Simple Example
+
+```ruby
+URLcrypt.encode('chunky bacon!')          # => "mnAhk6tlp2qg2yldn8xcc"
+URLcrypt.decode('mnAhk6tlp2qg2yldn8xcc')  # => "chunky bacon!"
+```
+
+## Running the Test Suite
 
 If you want to run the automated tests for URLcrypt, issue this command from the
 distribution directory.
 
   % rake test:all
 
-== References
+## References
 
 * Base 32: RFC 3548: http://www.faqs.org/rfcs/rfc3548.html
-
-== Simple Example
-
-  encoded = URLcrypt.encode("chunky bacon!")  # => "MNUHK3TLPEQGEYLDN5XCC==="
-  decoded = URLcrypt.decode(encoded)          # => "chunky bacon!"
