@@ -55,7 +55,9 @@ URLcrypt.decode('mnAhk6tlp2qg2yldn8xcc')  # => "chunky bacon!"
 If you want to run the automated tests for URLcrypt, issue this command from the
 distribution directory.
 
-  % rake test:all
+```
+% rake test:all
+```
 
 ## References
 
