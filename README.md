@@ -39,11 +39,11 @@ Add `urlcrypt` to your Gemfile.
 ```ruby
 # encrypt and encode with 256-bit AES
 # one-time setup, set this to a securely random key with at least 256 bits, see below
-URLcrypt::key = '...' 
+URLcrypt.key = '...' 
 
 # now encrypt and decrypt!
-URLcrypt::encrypt('chunky bacon!')        # => "sgmt40kbmnh1663nvwknxk5l0mZ6Av2ndhgw80rkypnp17xmmg5hy"
-URLcrypt::decrypt('sgmt40kbmnh1663nvwknxk5l0mZ6Av2ndhgw80rkypnp17xmmg5hy')
+URLcrypt.encrypt('chunky bacon!')        # => "sgmt40kbmnh1663nvwknxk5l0mZ6Av2ndhgw80rkypnp17xmmg5hy"
+URLcrypt.decrypt('sgmt40kbmnh1663nvwknxk5l0mZ6Av2ndhgw80rkypnp17xmmg5hy')
   # => "chunky bacon!"
 
 # encoding without encryption (don't use for anything sensitive!), doesn't need key set
