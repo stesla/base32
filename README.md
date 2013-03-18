@@ -1,19 +1,28 @@
 # URLcrypt
 
 Ever wanted to securely transmit (not too long) pieces of arbitrary binary data
-in a URL? *urlencrypt* makes it easy!
+in a URL? *URLcrypt* makes it easy!
 
 This gem is based on the base32 gem from Samuel Tesla.
 
-URLcrypt uses a 256-bit AES symmetric encryption to securely encrypt data, and
-and encodes and decodes Base 62 strings that can be used directly in URLs.
+URLcrypt uses 256-bit AES symmetric encryption to securely encrypt data, and
+and encodes and decodes Base 32 strings that can be used directly in URLs.
 
-For example, this can be used to securely store user ids and the like when you 
-access a web application from a place that doesn't have other authentication
-mechanisms, like when you load an image in an email.
+This can be used to securely store user ids, download expiration dates and 
+other arbitrary data like that when you access a web application from a place 
+that doesn't have other authentication or persistence mechanisms (like cookies):
+ 
+  * Loading a generated image from your web app in an email
+  * Links that come with an expiration date (à la S3)
+  * Mini-apps that don't persist data on the server
 
 URLcrypt uses a modified Base 32 algorithm that doesn't use padding characters,
 and doesn't use vowels to avoid bad words in the generated string.
+
+*Important*: As a general guideline, URL lengths shouldn't exceed about 2000 
+characters in length, as URLs longer than that will not work in some browsers
+and with some (proxy) servers. This limits the amount of data you can store
+with URLcrypt.
 
 The main reason why Base 32 is useful is that Ruby's built-in Base 64 support
 is, IMO, looking ugly in URLs and requires several characters that need to be 
