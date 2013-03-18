@@ -32,9 +32,9 @@ Patches are welcome; please include tests!
 
 ## Installation
 
-Add the `urlcrypt` gem to your Gemfile.
+Add `urlcrypt` to your Gemfile.
 
-## Simple Example
+## Example
 
 ```ruby
 # encrypt and encode with 256-bit AES
@@ -55,14 +55,14 @@ URLcrypt.decode('mnAhk6tlp2qg2yldn8xcc')  # => "chunky bacon!"
 
 The easiest way to generate a secure key is to use `rake secret` in a Rails app:
 
-```
-% rake secret
+```sh
+$ rake secret
 ba7f56f8f9873b1653d7f032cc474938fd749ee8fbbf731a7c41d698826aca3cebfffa832be7e6bc16eaddc3826602f35d3fd6b185f261ee8b0f01d33adfbe64
 ```
 
 To use the key with URLcrypt, you'll need to convert that from a hex string into a real byte array:
 
-```
+```ruby
 URLcrypt::key = ['longhexkeygoeshere'].pack('H*')
 ```
 
@@ -71,8 +71,8 @@ URLcrypt::key = ['longhexkeygoeshere'].pack('H*')
 If you want to run the automated tests for URLcrypt, issue this command from the
 distribution directory.
 
-```
-% rake test:all
+```sh
+$ rake test:all
 ```
 
 ## Why not Base 64, or an other radix/base library?
