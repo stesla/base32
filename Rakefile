@@ -1,3 +1,4 @@
+# Copyright (c) 2013 Thomas Fuchs
 # Copyright (c) 2007-2011 Samuel Tesla
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,26 +21,26 @@
 
 require File.join(File.dirname(__FILE__), 'config', 'environment.rb')
 require 'rake/clean'
-require 'rake/gempackagetask'
 require 'rake/testtask'
 require 'rubygems'
+require 'rubygems/package_task'
 
 task :default => ['test:all']
 
 gemspec = Gem::Specification.new do |s|
-  s.author = "Samuel Tesla"
-  s.email = "samuel.tesla@gmail.com"
+  s.author = "Thomas Fuchs"
+  s.email = "thomas@slash7.com"
   s.extra_rdoc_files = ["README"]
   s.files = FileList["Rakefile", "{config,lib,test}/**/*"]
   s.has_rdoc = true
-  s.name = 'base32'
+  s.name = 'urlcrypt'
   s.require_paths << 'lib'
   s.requirements << 'none'
-  s.summary = "Ruby extension for base32 encoding and decoding"
-  s.version = "0.2.0"
+  s.summary = "Securely encode and decode short pieces of arbitrary binary data in URLs."
+  s.version = "0.0.1"
 end
 
-Rake::GemPackageTask.new(gemspec) do |pkg|
+Gem::PackageTask.new(gemspec) do |pkg|
   pkg.need_tar = true
 end
 

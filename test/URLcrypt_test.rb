@@ -1,0 +1,42 @@
+require 'test/unit'
+require 'URLcrypt'
+
+class TestURLcrypt < Test::Unit::TestCase
+  def assert_decoding(encoded, plain)
+    decoded = URLcrypt.decode(encoded)
+    assert_equal(plain, decoded)
+  end
+
+  def assert_encoding(encoded, plain)
+    actual = URLcrypt.encode(plain)
+    assert_equal(encoded, actual)
+  end
+
+  def assert_encode_and_decode(encoded, plain)
+    assert_encoding(encoded, plain)
+    assert_decoding(encoded, plain)
+  end
+
+  def test_empty_string
+    assert_encode_and_decode('', '')
+  end
+
+  def test_encode
+    assert_encode_and_decode(
+      '111gc86f4nxw5zj1b3qmhpb14n5h25l4m7111',
+      "\0\0awesome \n ü string\0\0")
+  end
+  
+  def test_invalid_encoding
+    assert_decoding('ZZZZZ', '')
+  end
+  
+  def test_arbitrary_byte_strings
+    0.step(1500,17) do |n|
+      original = (0..n).map{rand(256).chr}.join
+      encoded = URLcrypt::encode(original)
+      assert_decoding(encoded, original)
+    end
+  end
+
+end

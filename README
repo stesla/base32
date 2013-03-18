@@ -1,47 +1,51 @@
-= base32
+= URLcrypt
 
-For Version: 0.1.3
+Ever wanted to securely transmit (not too long) pieces of arbitrary binary data
+in a URL? *urlencrypt* makes it easy!
 
-This package contains base32, a ruby extension for encoding and decoding
-in base32 per RFC 3548.
+This gem is based on the base32 gem from Samuel Tesla.
 
-== Download
+URLcrypt uses a 256-bit AES symmetric encryption to securely encrypt data, and
+and encodes and decodes Base 62 strings that can be used directly in URLs.
 
-The latest version of base32 can be found at
+For example, this can be used to securely store user ids and the like when you 
+access a web application from a place that doesn't have other authentication
+mechanisms, like when you load an image in an email.
 
-http://rubyforge.org/frs/?group_id=3938
+URLcrypt uses a modified Base 32 algorithm that doesn't use padding characters,
+and doesn't use vowels to avoid bad words in the generated string.
+
+The main reason why Base 32 is useful is that Ruby's built-in Base 64 support
+is, IMO, looking ugly in URLs and requires several characters that need to be 
+URL-escaped.
+
+Unfortunately, some other gems out there that in theory could handle this 
+(like the radix gem) fail with strings that start with a "\0" byte.
+
+*WORD OF WARNING* THERE IS NO GUARANTEE WHATSOEVER THAT THIS GEM IS ACTUALLY
+SECURE AND WORKS. USE AT YOUR OWN RISK.
+
+Note: this is version 0.0.1 which doesn't actually come with the encryption part
+just yet. It will only work on Ruby 1.8.7 for now.
+
+Patches are welcome, please include tests.
 
 == Installation
 
-=== Normal Installation
-
-You can install base32 with the following command from the distribution
-directory.
-
-  % rake install
-
-=== Gem Installation
-
-Download and install base32 with the following command.
-
-  % gem install --remote base32
+Add the `urlcrypt` gem to your Gemfile.
 
 === Running the Test Suite
 
-If you want to run the automated tests for base32, issue this command from the
+If you want to run the automated tests for URLcrypt, issue this command from the
 distribution directory.
 
   % rake test:all
 
 == References
 
-* RFC 3548: http://www.faqs.org/rfcs/rfc3548.html
+* Base 32: RFC 3548: http://www.faqs.org/rfcs/rfc3548.html
 
 == Simple Example
 
-  require "base32"
-
-  encoded = Base32.encode("chunky bacon!")  #==> "MNUHK3TLPEQGEYLDN5XCC==="
-  decoded = Base32.decode(encoded)          #==> "chunky bacon!"
-
-  puts %Q{"#{decoded}" is "#{encoded}" in base32}
+  encoded = URLcrypt.encode("chunky bacon!")  # => "MNUHK3TLPEQGEYLDN5XCC==="
+  decoded = URLcrypt.decode(encoded)          # => "chunky bacon!"
