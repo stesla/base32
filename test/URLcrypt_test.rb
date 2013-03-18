@@ -1,15 +1,22 @@
+# encoding: utf-8
 require 'test/unit'
 require 'URLcrypt'
 
 class TestURLcrypt < Test::Unit::TestCase
+  def assert_bytes_equal(string1, string2)
+    bytes1 = string1.bytes.to_a.join(':')
+    bytes2 = string2.bytes.to_a.join(':')
+    assert_equal(bytes1, bytes2)
+  end
+  
   def assert_decoding(encoded, plain)
     decoded = URLcrypt.decode(encoded)
-    assert_equal(plain, decoded)
+    assert_bytes_equal(plain, decoded)
   end
 
   def assert_encoding(encoded, plain)
     actual = URLcrypt.encode(plain)
-    assert_equal(encoded, actual)
+    assert_bytes_equal(encoded, actual)
   end
 
   def assert_encode_and_decode(encoded, plain)
