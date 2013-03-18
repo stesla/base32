@@ -1,5 +1,7 @@
 # URLcrypt
 
+[![Build Status](https://travis-ci.org/madrobby/URLcrypt.png?branch=master)](https://travis-ci.org/madrobby/URLcrypt)
+
 Ever wanted to securely transmit (not too long) pieces of arbitrary binary data
 in a URL? **URLcrypt** makes it easy!
 
@@ -17,7 +19,7 @@ that doesn't have other authentication or persistence mechanisms (like cookies):
   * Mini-apps that don't persist data on the server
 
 **Note:** this is version 0.0.1 which doesn't actually come with the encryption part
-just yet. It will only work on Ruby 1.8.7 for now.
+just yet. Works with Ruby 1.8, 1.9 and 2.0.
 
 **Important**: As a general guideline, URL lengths shouldn't exceed about 2000 
 characters in length, as URLs longer than that will not work in some browsers
