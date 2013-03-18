@@ -1,8 +1,14 @@
+require 'openssl'
+
 module URLcrypt
   # avoid vowels to not generate four-letter words, etc.
   # this is important because those words can trigger spam 
   # filters when URLs are used in emails
   TABLE = "1bcd2fgh3jklmn4pqrstAvwxyz567890".freeze
+
+  def self.key=(key)
+    @key = key
+  end
 
   class Chunk
     def initialize(bytes)
@@ -25,6 +31,7 @@ module URLcrypt
       [(0..n-1).to_a.reverse.collect {|i| TABLE[(c >> i * 5) & 0x1f].chr},
        ("=" * (8-n))] # TODO: remove '=' padding generation
     end
+    
   end
 
   def self.chunks(str, size)
@@ -38,11 +45,34 @@ module URLcrypt
   end
 
   # strip '=' padding, because we don't need it
-  def self.encode(str)
-    chunks(str, 5).collect(&:encode).flatten.join.tr('=','')
+  def self.encode(data)
+    chunks(data, 5).collect(&:encode).flatten.join.tr('=','')
   end
 
-  def self.decode(str)
-    chunks(str, 8).collect(&:decode).flatten.join
+  def self.decode(data)
+    chunks(data, 8).collect(&:decode).flatten.join
   end
+  
+  def self.decrypt(data)
+    parts = data.split('Z').map{|part| decode(part)}
+    decrypter = cipher(:decrypt)
+    decrypter.iv = parts[0]
+    decrypter.update(parts[1]) + decrypter.final 
+  end
+    
+  def self.encrypt(data)
+    crypter = cipher(:encrypt)
+    crypter.iv = iv = crypter.random_iv
+    "#{encode(iv)}Z#{encode(crypter.update(data) + crypter.final)}"
+  end
+  
+  private 
+    
+    def self.cipher(mode)
+      cipher = OpenSSL::Cipher.new('aes-256-cbc')
+      cipher.send(mode)
+      cipher.key = @key
+      cipher
+    end
+
 end

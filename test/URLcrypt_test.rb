@@ -45,5 +45,15 @@ class TestURLcrypt < Test::Unit::TestCase
       assert_decoding(encoded, original)
     end
   end
+  
+  def test_encryption
+    # this key was generated via rake secret in a rails app, the pack() converts it into a byte array
+    URLcrypt::key =
+['d25883a27b9a639da85ea7e159b661218799c9efa63069fac13a6778c954fb6d721968887a19bdb01af8f59eb5a90d256bd9903355c20b0b4b39bf4048b9b17b'].pack('H*')
+    
+    original  = "hello world!"
+    encrypted = URLcrypt::encrypt(original)
+    assert_equal(URLcrypt::decrypt(encrypted), original)
+  end
 
 end
