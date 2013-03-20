@@ -1,8 +1,5 @@
 # encoding: utf-8
 require 'test/unit'
-require 'coveralls'
-Coveralls.wear!
-
 require 'URLcrypt'
 
 class TestURLcrypt < Test::Unit::TestCase
