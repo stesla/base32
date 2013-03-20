@@ -2,6 +2,9 @@
 require 'test/unit'
 require 'URLcrypt'
 
+require 'coveralls'
+Coveralls.wear!
+
 class TestURLcrypt < Test::Unit::TestCase
   def assert_bytes_equal(string1, string2)
     bytes1 = string1.bytes.to_a.join(':')

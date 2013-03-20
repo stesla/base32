@@ -24,6 +24,7 @@ require 'rake/clean'
 require 'rake/testtask'
 require 'rubygems'
 require 'rubygems/package_task'
+require 'bundler'
 
 task :default => ['test:all']
 
@@ -46,6 +47,7 @@ end
 
 namespace :test do
   Rake::TestTask.new :all do |t|
+    Bundler.require(:default, :test)
     t.libs << 'test'
     t.pattern = 'test/**/*_test.rb'
     t.verbose = true
