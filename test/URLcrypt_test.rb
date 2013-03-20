@@ -1,8 +1,16 @@
 # encoding: utf-8
+require 'bundler'
+Bundler.require(:default, :test)
+
+require 'coveralls'
+Coveralls.wear!
+
 require 'test/unit'
-require 'URLcrypt'
 
 class TestURLcrypt < Test::Unit::TestCase
+  
+  require 'URLcrypt'
+  
   def assert_bytes_equal(string1, string2)
     bytes1 = string1.bytes.to_a.join(':')
     bytes2 = string2.bytes.to_a.join(':')
