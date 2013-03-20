@@ -1,6 +1,7 @@
 # URLcrypt
 
 [![Build Status](https://travis-ci.org/madrobby/URLcrypt.png?branch=master)](https://travis-ci.org/madrobby/URLcrypt)
+[![Coverage Status](https://coveralls.io/repos/madrobby/URLcrypt/badge.png?branch=master)](https://coveralls.io/r/madrobby/URLcrypt)
 
 Ever wanted to securely transmit (not too long) pieces of arbitrary binary data
 in a URL? **URLcrypt** makes it easy!
