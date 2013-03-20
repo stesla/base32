@@ -1,9 +1,9 @@
 # encoding: utf-8
 require 'test/unit'
-require 'URLcrypt'
-
 require 'coveralls'
 Coveralls.wear!
+
+require 'URLcrypt'
 
 class TestURLcrypt < Test::Unit::TestCase
   def assert_bytes_equal(string1, string2)
