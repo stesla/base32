@@ -2,3 +2,4 @@ ext/Makefile
 ext/*.o
 ext/*.so
 ext/*.bundle
+Gemfile.lock
