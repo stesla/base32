@@ -1,5 +1,8 @@
+require 'openssl'
+
+# Module for encoding and decoding in Base32 per RFC 3548
 module Base32
-  TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+  TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
 
   class Chunk
     def initialize(bytes)
@@ -39,5 +42,13 @@ module Base32
 
   def self.decode(str)
     chunks(str, 8).collect(&:decode).flatten.join
+  end
+
+  def self.random_base32(length=16)
+    random = ''
+    OpenSSL::Random.random_bytes(length).each_byte do |b|
+      random << TABLE[b % 32]
+    end
+    random.ljust((length / 8.0).ceil * 8, '=') # add padding
   end
 end
