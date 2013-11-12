@@ -1,27 +1,8 @@
-# Copyright (c) 2007-2011 Samuel Tesla
+gem 'minitest'
+require 'minitest/autorun'
+require File.dirname(__FILE__) + '/../lib/base32.rb'
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-
-require 'test/unit'
-require 'base32'
-
-class TestBase32 < Test::Unit::TestCase
+class TestBase32 < Minitest::Test
   def assert_decoding(encoded, plain)
     decoded = Base32.decode(encoded)
     assert_equal(plain, decoded)
@@ -35,6 +16,11 @@ class TestBase32 < Test::Unit::TestCase
   def assert_encode_and_decode(encoded, plain)
     assert_encoding(encoded, plain)
     assert_decoding(encoded, plain)
+  end
+
+  def assert_hex_encode_and_decode(encoded, hex)
+    plain = [hex].pack('H*')
+    assert_encode_and_decode(encoded, plain)
   end
 
   def test_empty_string
@@ -71,5 +57,30 @@ class TestBase32 < Test::Unit::TestCase
       OJUXI6JMEBSG6IDPOJSGC2LOEBQW4ZBAMVZXIYLCNRUXG2BAORUGS4ZAINXW443UNF2HK5DJ
       N5XAUIBAEAQCAIDGN5ZCA5DIMUQFK3TJORSWIICTORQXIZLTEBXWMICBNVSXE2LDMEXAU===).join
     assert_encode_and_decode(encoded, plaintext)
+  end
+
+  def test_hex_byte_encoding
+    assert_hex_encode_and_decode('FA======', '28')
+    assert_hex_encode_and_decode('2Y======', 'd6')
+    assert_hex_encode_and_decode('234A====', 'd6f8')
+    assert_hex_encode_and_decode('234AA===', 'd6f800')
+    assert_hex_encode_and_decode('234BA===', 'd6f810')
+    assert_hex_encode_and_decode('234BCDA=', 'd6f8110c')
+    assert_hex_encode_and_decode('234BCDEA', 'd6f8110c80')
+    assert_hex_encode_and_decode('234BCDEFGA======', 'd6f8110c8530')
+    assert_hex_encode_and_decode('234BCDEFG234BCDEFE======', 'd6f8110c8536b7c0886429')
+  end
+
+  def test_random_base32
+    assert_equal(16, Base32.random_base32.length)
+    assert_match(/^[A-Z2-7]+$/, Base32.random_base32)
+  end
+
+  def test_random_base32_length
+    assert_equal(32, Base32.random_base32(32).length)
+    assert_equal(40, Base32.random_base32(40).length)
+    assert_equal(32, Base32.random_base32(29).length)
+    assert_match(/^[A-Z2-7]{1}={7}$/, Base32.random_base32(1))
+    assert_match(/^[A-Z2-7]{29}={3}$/, Base32.random_base32(29))
   end
 end
