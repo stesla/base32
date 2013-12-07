@@ -1,7 +1,7 @@
 # URLcrypt
 
-[![Build Status](https://travis-ci.org/madrobby/URLcrypt.png?branch=master)](https://travis-ci.org/madrobby/URLcrypt)
-[![Coverage Status](https://coveralls.io/repos/madrobby/URLcrypt/badge.png?branch=master)](https://coveralls.io/r/madrobby/URLcrypt)
+[![Build Status](https://travis-ci.org/cheerful/URLcrypt.png?branch=master)](https://travis-ci.org/cheerful/URLcrypt)
+[![Coverage Status](https://coveralls.io/repos/cheerful/URLcrypt/badge.png?branch=master)](https://coveralls.io/r/cheerful/URLcrypt)
 
 Ever wanted to securely transmit (not too long) pieces of arbitrary binary data
 in a URL? **URLcrypt** makes it easy!
@@ -28,6 +28,9 @@ and with some (proxy) servers. This limits the amount of data you can store
 with URLcrypt.
 
 **WORD OF WARNING: THERE IS NO GUARANTEE WHATSOEVER THAT THIS GEM IS ACTUALLY SECURE AND WORKS. USE AT YOUR OWN RISK.**
+
+URLcrypt is an extraction from [Freckle Time Tracking](http://letsfreckle.com/),
+where it is used to generate URLs for dynamically generated images in emails.
 
 Patches are welcome; please include tests!
 
