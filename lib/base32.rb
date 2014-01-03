@@ -13,15 +13,15 @@ module Base32
       bytes = @bytes.take_while {|c| c != 61} # strip padding
       n = (bytes.length * 5.0 / 8.0).floor
       p = bytes.length < 8 ? 5 - (n * 8) % 5 : 0
-      c = bytes.inject(0) {|m,o| (m << 5) + TABLE.index(o.chr)} >> p
+      c = bytes.inject(0) {|m,o| (m << 5) + Base32.table.index(o.chr)} >> p
       (0..n-1).to_a.reverse.collect {|i| ((c >> i * 8) & 0xff).chr}
     end
-    
+
     def encode
       n = (@bytes.length * 8.0 / 5.0).ceil
       p = n < 8 ? 5 - (@bytes.length * 8) % 5 : 0
       c = @bytes.inject(0) {|m,o| (m << 8) + o} << p
-      [(0..n-1).to_a.reverse.collect {|i| TABLE[(c >> i * 5) & 0x1f].chr},
+      [(0..n-1).to_a.reverse.collect {|i| Base32.table[(c >> i * 5) & 0x1f].chr},
        ("=" * (8-n))]
     end
   end
@@ -35,7 +35,7 @@ module Base32
     end
     result
   end
-  
+
   def self.encode(str)
     chunks(str, 5).collect(&:encode).flatten.join
   end
@@ -47,7 +47,7 @@ module Base32
   def self.random_base32(length=16)
     random = ''
     OpenSSL::Random.random_bytes(length).each_byte do |b|
-      random << TABLE[b % 32]
+      random << self.table[b % 32]
     end
     random.ljust((length / 8.0).ceil * 8, '=') # add padding
   end
