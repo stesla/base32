@@ -88,12 +88,15 @@ class TestBase32 < Minitest::Test
     new_table =  'abcdefghijklmnopqrstuvwxyz234567'
     Base32.table = new_table
     assert_equal(new_table, Base32.table)
+    Base32.table = Base32::TABLE # so as not to ruin other tests
   end
 
   def test_check_table_length
     assert_raises(ArgumentError) { Base32.table = ('a' * 31) }
     assert_raises(ArgumentError) { Base32.table = ('a' * 32) }
     assert_raises(ArgumentError) { Base32.table = ('a' * 33) }
+    assert_raises(ArgumentError) { Base32.table = ('abcdefghijklmnopqrstuvwxyz234567' * 2) }
+    Base32.table = Base32::TABLE # so as not to ruin other tests
   end
 
   def test_encode_decode_with_alternate_table
