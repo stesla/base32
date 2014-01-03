@@ -83,4 +83,34 @@ class TestBase32 < Minitest::Test
     assert_match(/^[A-Z2-7]{1}={7}$/, Base32.random_base32(1))
     assert_match(/^[A-Z2-7]{29}={3}$/, Base32.random_base32(29))
   end
+
+  def test_assign_new_table
+    new_table =  'abcdefghijklmnopqrstuvwxyz234567'
+    Base32.table = new_table
+    assert_equal(new_table, Base32.table)
+    Base32.table = Base32::TABLE # so as not to ruin other tests
+  end
+
+  def test_check_table_length
+    assert_raises(ArgumentError) { Base32.table = ('a' * 31) }
+    assert_raises(ArgumentError) { Base32.table = ('a' * 32) }
+    assert_raises(ArgumentError) { Base32.table = ('a' * 33) }
+    assert_raises(ArgumentError) { Base32.table = ('abcdefghijklmnopqrstuvwxyz234567' * 2) }
+    Base32.table = Base32::TABLE # so as not to ruin other tests
+  end
+
+  def test_encode_decode_with_alternate_table
+    Base32.table = 'abcdefghijklmnopqrstuvwxyz234567'
+    assert_hex_encode_and_decode('fa======', '28')
+    assert_hex_encode_and_decode('2y======', 'd6')
+    assert_hex_encode_and_decode('234a====', 'd6f8')
+    assert_hex_encode_and_decode('234aa===', 'd6f800')
+    assert_hex_encode_and_decode('234ba===', 'd6f810')
+    assert_hex_encode_and_decode('234bcda=', 'd6f8110c')
+    assert_hex_encode_and_decode('234bcdea', 'd6f8110c80')
+    assert_hex_encode_and_decode('234bcdefga======', 'd6f8110c8530')
+    assert_hex_encode_and_decode('234bcdefg234bcdefe======', 'd6f8110c8536b7c0886429')
+    Base32.table = Base32::TABLE # so as not to ruin other tests
+  end
+
 end
