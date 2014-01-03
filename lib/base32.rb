@@ -2,7 +2,7 @@ require 'openssl'
 
 # Module for encoding and decoding in Base32 per RFC 3548
 module Base32
-  TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
+  TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.freeze
 
   class Chunk
     def initialize(bytes)
@@ -50,5 +50,18 @@ module Base32
       random << TABLE[b % 32]
     end
     random.ljust((length / 8.0).ceil * 8, '=') # add padding
+  end
+
+  def self.table=(table)
+    raise ArgumentError, "Table must have 32 unique characters" unless self.table_valid?(table)
+    @table = table
+  end
+
+  def self.table
+    @table || TABLE
+  end
+
+  def self.table_valid?(table)
+    table.bytes.uniq.size == 32
   end
 end

@@ -83,4 +83,16 @@ class TestBase32 < Minitest::Test
     assert_match(/^[A-Z2-7]{1}={7}$/, Base32.random_base32(1))
     assert_match(/^[A-Z2-7]{29}={3}$/, Base32.random_base32(29))
   end
+
+  def test_assign_new_table
+    new_table =  'abcdefghijklmnopqrstuvwxyz234567'
+    Base32.table = new_table
+    assert_equal(new_table, Base32.table)
+  end
+
+  def test_check_table_length
+    assert_raises(ArgumentError) { Base32.table = ('a' * 31) }
+    assert_raises(ArgumentError) { Base32.table = ('a' * 32) }
+    assert_raises(ArgumentError) { Base32.table = ('a' * 33) }
+  end
 end
