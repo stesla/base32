@@ -62,6 +62,6 @@ module Base32
   end
 
   def self.table_valid?(table)
-    table.bytes.size == 32 && table.bytes.uniq.size == 32
+    table.bytes.to_a.size == 32 && table.bytes.to_a.uniq.size == 32
   end
 end
