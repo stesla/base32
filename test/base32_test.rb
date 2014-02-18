@@ -84,6 +84,14 @@ class TestBase32 < Minitest::Test
     assert_match(/^[A-Z2-7]{29}={3}$/, Base32.random_base32(29))
   end
 
+  def test_random_base32_padding
+    assert_equal(32, Base32.random_base32(32, false).length)
+    assert_equal(40, Base32.random_base32(40, false).length)
+    assert_equal(29, Base32.random_base32(29, false).length)
+    assert_match(/^[A-Z2-7]{1}$/, Base32.random_base32(1, false))
+    assert_match(/^[A-Z2-7]{29}$/, Base32.random_base32(29, false))
+  end
+
   def test_assign_new_table
     new_table =  'abcdefghijklmnopqrstuvwxyz234567'
     Base32.table = new_table

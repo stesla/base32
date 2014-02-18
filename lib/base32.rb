@@ -44,12 +44,12 @@ module Base32
     chunks(str, 8).collect(&:decode).flatten.join
   end
 
-  def self.random_base32(length=16)
+  def self.random_base32(length=16, padding=true)
     random = ''
     OpenSSL::Random.random_bytes(length).each_byte do |b|
       random << self.table[b % 32]
     end
-    random.ljust((length / 8.0).ceil * 8, '=') # add padding
+    padding ? random.ljust((length / 8.0).ceil * 8, '=') : random
   end
 
   def self.table=(table)
