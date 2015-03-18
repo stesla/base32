@@ -64,4 +64,10 @@ class TestURLcrypt < Test::Unit::TestCase
     assert_equal(URLcrypt::decrypt(encrypted), original)
   end
 
+  def test_decrypt_error
+    error = assert_raises(URLcrypt::DecryptError) do
+      ::URLcrypt::decrypt("just some plaintext")
+    end
+    assert_equal error.message, "not a valid string to decrypt"
+  end
 end
