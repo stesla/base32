@@ -54,10 +54,11 @@ module URLcrypt
   end
   
   def self.decrypt(data)
-    parts = data.split('Z').map{|part| decode(part)}
+    iv, encrypted = data.split('Z').map{|part| decode(part)}
+    fail DecryptError, "not a valid string to decrypt" unless iv && encrypted
     decrypter = cipher(:decrypt)
-    decrypter.iv = parts[0]
-    decrypter.update(parts[1]) + decrypter.final 
+    decrypter.iv = iv
+    decrypter.update(encrypted) + decrypter.final 
   end
     
   def self.encrypt(data)
@@ -75,4 +76,5 @@ module URLcrypt
       cipher
     end
 
+  class DecryptError < ::ArgumentError; end
 end
