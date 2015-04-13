@@ -1,9 +1,5 @@
 # base32
 
-![Travis CI][travis] ![code climate][code]
-[travis]: https://travis-ci.org/stesla/base32.png "Travis CI"
-[code]: https://codeclimate.com/github/stesla/base32.png "codeclimate"
-
 For Version: 0.1.3
 
 This package contains base32, a Ruby extension for encoding and decoding
