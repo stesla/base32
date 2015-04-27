@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.authors = ['Samuel Tesla']
   s.email   = 'samuel.tesla@gmail.com'
   s.summary = 'Ruby extension for base32 encoding and decoding'
+  s.licenses    = ['MIT']
 
   s.files         = `git ls-files`.split($/)
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
