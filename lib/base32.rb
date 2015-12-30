@@ -14,7 +14,7 @@ module Base32
       n = (bytes.length * 5.0 / 8.0).floor
       p = bytes.length < 8 ? 5 - (n * 8) % 5 : 0
       c = bytes.inject(0) do |m,o| 
-        i = Base32.table.index(o.chr)}
+        i = Base32.table.index(o.chr)
         raise ArgumentError, "invalid character '#{o.chr}'" if i.nil?
         (m << 5) + i
       end >> p
