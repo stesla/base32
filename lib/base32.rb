@@ -13,7 +13,11 @@ module Base32
       bytes = @bytes.take_while {|c| c != 61} # strip padding
       n = (bytes.length * 5.0 / 8.0).floor
       p = bytes.length < 8 ? 5 - (n * 8) % 5 : 0
-      c = bytes.inject(0) {|m,o| (m << 5) + Base32.table.index(o.chr)} >> p
+      c = bytes.inject(0) do |m,o| 
+        i = Base32.table.index(o.chr)}
+        raise ArgumentError, "invalid character '#{o.chr}'" if i.nil?
+        (m << 5) + i
+      end >> p
       (0..n-1).to_a.reverse.collect {|i| ((c >> i * 8) & 0xff).chr}
     end
 
