@@ -3,6 +3,11 @@ require 'openssl'
 # Module for encoding and decoding in Base32 per RFC 3548
 module Base32
   TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.freeze
+  @table = TABLE
+
+  class <<self
+    attr_reader :table
+  end
 
   class Chunk
     def initialize(bytes)
@@ -13,7 +18,7 @@ module Base32
       bytes = @bytes.take_while {|c| c != 61} # strip padding
       n = (bytes.length * 5.0 / 8.0).floor
       p = bytes.length < 8 ? 5 - (n * 8) % 5 : 0
-      c = bytes.inject(0) do |m,o| 
+      c = bytes.inject(0) do |m,o|
         i = Base32.table.index(o.chr)
         raise ArgumentError, "invalid character '#{o.chr}'" if i.nil?
         (m << 5) + i
@@ -59,10 +64,6 @@ module Base32
   def self.table=(table)
     raise ArgumentError, "Table must have 32 unique characters" unless self.table_valid?(table)
     @table = table
-  end
-
-  def self.table
-    @table || TABLE
   end
 
   def self.table_valid?(table)
