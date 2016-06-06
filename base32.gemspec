@@ -1,5 +1,5 @@
-$:.push File.expand_path('../lib', __FILE__)
-require 'version'
+$:.unshift File.expand_path('../lib', __FILE__)
+require 'base32/version'
 
 Gem::Specification.new do |s|
   s.name    = 'base32'
