@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.has_rdoc = true
   s.extra_rdoc_files = ['README']
 
-  s.post_install_message = File.read('UPGRADING') if File.exists?('UPGRADING')
+  s.post_install_message = File.read('UPGRADING') if File.exist?('UPGRADING')
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'minitest'
