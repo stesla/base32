@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.3.3
+## 0.3.4
 - PR #7: Updated README formatting (contributer: codehs)
 - PR #8: Include license in gemspec (contributer: flavio)
 - PR #9: Detect invalid characters when decoding (contributer: voondo)
