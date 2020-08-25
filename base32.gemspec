@@ -14,9 +14,6 @@ Gem::Specification.new do |s|
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ['lib']
 
-  s.has_rdoc = true
-  s.extra_rdoc_files = ['README.md']
-
   s.post_install_message = File.read('UPGRADING') if File.exist?('UPGRADING')
 
   s.add_development_dependency 'rake'
