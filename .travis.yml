@@ -6,3 +6,4 @@ rvm:
   - 2.0.0
   - ruby-head
   - rbx-19mode
+  - truffleruby-head
