@@ -8,6 +8,11 @@ class TestBase32 < Minitest::Test
     assert_equal(plain, decoded)
   end
 
+  def assert_hex_decoding(encoded, hex)
+    plain = [hex].pack('H*')
+    assert_decoding(encoded, plain)
+  end
+
   def assert_encoding(encoded, plain)
     actual = Base32.encode(plain)
     assert_equal(encoded, actual)
@@ -121,4 +126,18 @@ class TestBase32 < Minitest::Test
     Base32.table = Base32::TABLE # so as not to ruin other tests
   end
 
+  def test_decoding_ignores_pad_bits
+    assert_hex_decoding('M', '') # (01100)
+    assert_hex_decoding('MU', '65') # 01100 101(00)
+    assert_hex_decoding('MV', '65') # 01100 101(01)
+    assert_hex_decoding('MVS', '65') # 01100 101(01 10010)
+    assert_hex_decoding('MVSA', '6564') # 01100 10101 10010 0(0000)
+    assert_hex_decoding('MVSJ', '6564') # 01100 10101 10010 0(1001)
+    assert_hex_decoding('MVSJO', '656497') # 01100 10101 10010 01001 0111(0)
+    assert_hex_decoding('MVSJP', '656497') # 01100 10101 10010 01001 0111(1)
+    assert_hex_decoding('MVSJOA', '656497') # 01100 10101 10010 01001 0111(0 00000)
+    assert_hex_decoding('MVSJOY', '656497') # 01100 10101 10010 01001 0111(0 11000)
+    assert_hex_decoding('MVSJOYQ', '65649762') # 01100 10101 10010 01001 01110 11000 10(000)
+    assert_hex_decoding('MVSJOYX', '65649762') # 01100 10101 10010 01001 01110 11000 10(111)
+  end
 end

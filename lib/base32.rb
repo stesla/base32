@@ -17,7 +17,7 @@ module Base32
     def decode
       bytes = @bytes.take_while {|c| c != 61} # strip padding
       n = (bytes.length * 5.0 / 8.0).floor
-      p = bytes.length < 8 ? 5 - (n * 8) % 5 : 0
+      p = n == 0 ? 5 : (bytes.length * 5) % (n * 8)
       c = bytes.inject(0) do |m,o|
         i = Base32.table.index(o.chr)
         raise ArgumentError, "invalid character '#{o.chr}'" if i.nil?
