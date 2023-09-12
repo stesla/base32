@@ -4,6 +4,9 @@ rvm:
   - 1.9.2
   - 1.9.3
   - 2.0.0
+  - 3.0
+  - 3.1
+  - 3.2
   - ruby-head
   - rbx-19mode
   - truffleruby-head
